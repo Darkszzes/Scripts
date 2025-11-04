@@ -25,14 +25,9 @@ ServerFunctionalitiesSectionReference:AddParagraph({Title="Your Current JobId",C
 ServerFunctionalitiesSectionReference:AddButton({Title="Copy JobId Code",Callback=function()setclipboard(CurrentJobIdValue)end})
 
 local JoinJobIdServerButtonControlElementReference=ServerFunctionalitiesSectionReference:AddButton({Title="Join JobId Server",Callback=function()
-    local ClipboardJobIdValue=getclipboard()
-    if not ClipboardJobIdValue or ClipboardJobIdValue=="" then return end
-    if ClipboardJobIdValue==CurrentJobIdValue then return end
-    local TeleportServiceReference=game:GetService("TeleportService")
-    local PlaceIdValue=game.PlaceId
-    pcall(function()
-        TeleportServiceReference:TeleportToPlaceInstance(PlaceIdValue,ClipboardJobIdValue,LocalPlayerServiceReference)
-    end)
+    local ClipboardJobIdValue=getclipboard()if not ClipboardJobIdValue or ClipboardJobIdValue=="" then return end if ClipboardJobIdValue==CurrentJobIdValue then return end
+    local TeleportServiceReference=game:GetService("TeleportService")local PlaceIdValue=game.PlaceId
+    pcall(function()TeleportServiceReference:TeleportToPlaceInstance(PlaceIdValue,ClipboardJobIdValue,LocalPlayerServiceReference)end)
 end})
 
 local NoClipUniversalToggleControlElementReference=WorldFunctionalitiesSectionReference:AddToggle("NoClipUniversalToggle",{Title="NoClip Fe Universal",Default=false})
@@ -66,8 +61,7 @@ local StealingInteractionUniversalButtonControlElementReference=PlayersFunctiona
     local LocalCharacterModelReference=LocalPlayerServiceReference.Character if not LocalCharacterModelReference then return end
     local LocalHumanoidRootPartReference=LocalCharacterModelReference:FindFirstChild("HumanoidRootPart")if not LocalHumanoidRootPartReference then return end
     local LocalHumanoidInstanceReference=LocalCharacterModelReference:FindFirstChildOfClass("Humanoid")if not LocalHumanoidInstanceReference or LocalHumanoidInstanceReference.Health<=0 then return end
-    for _,PlayerInstanceElementReference in pairs(game:GetService("Players"):GetPlayers())do
-        if PlayerInstanceElementReference==LocalPlayerServiceReference then continue end
+    for _,PlayerInstanceElementReference in pairs(game:GetService("Players"):GetPlayers())do if PlayerInstanceElementReference==LocalPlayerServiceReference then continue end
         local TargetCharacterModelReference=PlayerInstanceElementReference.Character if not TargetCharacterModelReference then continue end
         local TargetHumanoidRootPartReference=TargetCharacterModelReference:FindFirstChild("HumanoidRootPart")if not TargetHumanoidRootPartReference then continue end
         local TargetHumanoidInstanceReference=TargetCharacterModelReference:FindFirstChildOfClass("Humanoid")if not TargetHumanoidInstanceReference or TargetHumanoidInstanceReference.Health>0 then continue end
@@ -75,8 +69,7 @@ local StealingInteractionUniversalButtonControlElementReference=PlayersFunctiona
         local TextChatServiceReference=game:GetService("TextChatService")if not TextChatServiceReference then return end
         local TextChannelsReference=TextChatServiceReference:FindFirstChild("TextChannels")if not TextChannelsReference then return end
         local RBXGeneralChannelReference=TextChannelsReference:FindFirstChild("RBXGeneral")if not RBXGeneralChannelReference then return end
-        pcall(function()RBXGeneralChannelReference:SendAsync("/revistar "..PlayerInstanceElementReference.Name)end)
-        break
+        pcall(function()RBXGeneralChannelReference:SendAsync("/revistar "..PlayerInstanceElementReference.Name)end)break
     end
 end})
 
@@ -109,8 +102,7 @@ local RenderSteppedConnectionForTwoDimensionalLogicReference=RunServiceGameRefer
             local TargetTorsoScreenPositionVectorValue,IsTargetOnScreenBooleanState=CurrentCameraInstanceReference:WorldToViewportPoint(TargetTorsoPartReference.Position)
             if not IsTargetOnScreenBooleanState then local ExistingLineDrawingObjectReference=PlayerLineESPStorageTable[PlayerUserIdValue]if ExistingLineDrawingObjectReference then ExistingLineDrawingObjectReference:Remove()PlayerLineESPStorageTable[PlayerUserIdValue]=nil end local ExistingCircleDrawingObjectReference=PlayerCircleESPStorageTable[PlayerUserIdValue]if ExistingCircleDrawingObjectReference then ExistingCircleDrawingObjectReference:Remove()PlayerCircleESPStorageTable[PlayerUserIdValue]=nil end local ExistingTextDrawingObjectReference=PlayerTextESPStorageTable[PlayerUserIdValue]if ExistingTextDrawingObjectReference then ExistingTextDrawingObjectReference:Remove()PlayerTextESPStorageTable[PlayerUserIdValue]=nil end continue end
             local ESPColorValue,CurrentHealthValue=Color3.new(0,0.5,1),100
-            if TargetHumanoidInstanceReference then 
-                CurrentHealthValue=math.floor(TargetHumanoidInstanceReference.Health)
+            if TargetHumanoidInstanceReference then CurrentHealthValue=math.floor(TargetHumanoidInstanceReference.Health)
                 if TargetHumanoidInstanceReference.Health<=0 then ESPColorValue=Color3.new(1,1,1)
                 elseif IgnoreFriendsModeUniversalFunctionalityEnabledState and LocalPlayerServiceReference:IsFriendsWith(PlayerInstanceElementReference.UserId)then ESPColorValue=Color3.new(0,1,0)
                 elseif IgnoreTeamModeUniversalFunctionalityEnabledState and PlayerInstanceElementReference.Team and PlayerInstanceElementReference.Team==LocalPlayerServiceReference.Team then ESPColorValue=Color3.new(0,1,0)
@@ -118,16 +110,13 @@ local RenderSteppedConnectionForTwoDimensionalLogicReference=RunServiceGameRefer
             end
             local CurrentLineDrawingObjectReference=PlayerLineESPStorageTable[PlayerUserIdValue]
             if not CurrentLineDrawingObjectReference then CurrentLineDrawingObjectReference=Drawing.new("Line")CurrentLineDrawingObjectReference.Thickness,CurrentLineDrawingObjectReference.Transparency,CurrentLineDrawingObjectReference.Visible=1,1,true PlayerLineESPStorageTable[PlayerUserIdValue]=CurrentLineDrawingObjectReference end
-            CurrentLineDrawingObjectReference.Color=ESPColorValue
-            CurrentLineDrawingObjectReference.From,CurrentLineDrawingObjectReference.To=ScreenBottomCenterPositionVectorValue,Vector2.new(TargetTorsoScreenPositionVectorValue.X,TargetTorsoScreenPositionVectorValue.Y)
+            CurrentLineDrawingObjectReference.Color,CurrentLineDrawingObjectReference.From,CurrentLineDrawingObjectReference.To=ESPColorValue,ScreenBottomCenterPositionVectorValue,Vector2.new(TargetTorsoScreenPositionVectorValue.X,TargetTorsoScreenPositionVectorValue.Y)
             local CurrentCircleDrawingObjectReference=PlayerCircleESPStorageTable[PlayerUserIdValue]
             if not CurrentCircleDrawingObjectReference then CurrentCircleDrawingObjectReference=Drawing.new("Circle")CurrentCircleDrawingObjectReference.Radius,CurrentCircleDrawingObjectReference.Thickness,CurrentCircleDrawingObjectReference.Filled,CurrentCircleDrawingObjectReference.Transparency,CurrentCircleDrawingObjectReference.Visible=2,1,false,1,true PlayerCircleESPStorageTable[PlayerUserIdValue]=CurrentCircleDrawingObjectReference end
-            CurrentCircleDrawingObjectReference.Color=ESPColorValue
-            CurrentCircleDrawingObjectReference.Position=Vector2.new(TargetTorsoScreenPositionVectorValue.X,TargetTorsoScreenPositionVectorValue.Y)
+            CurrentCircleDrawingObjectReference.Color,CurrentCircleDrawingObjectReference.Position=ESPColorValue,Vector2.new(TargetTorsoScreenPositionVectorValue.X,TargetTorsoScreenPositionVectorValue.Y)
             local CurrentTextDrawingObjectReference=PlayerTextESPStorageTable[PlayerUserIdValue]
             if not CurrentTextDrawingObjectReference then CurrentTextDrawingObjectReference=Drawing.new("Text")CurrentTextDrawingObjectReference.Size,CurrentTextDrawingObjectReference.Color,CurrentTextDrawingObjectReference.Center,CurrentTextDrawingObjectReference.Outline,CurrentTextDrawingObjectReference.Transparency,CurrentTextDrawingObjectReference.Visible=12,Color3.new(1,1,1),true,true,1,true PlayerTextESPStorageTable[PlayerUserIdValue]=CurrentTextDrawingObjectReference end
-            CurrentTextDrawingObjectReference.Text="["..CurrentHealthValue.."HP]["..math.floor(DistanceToTargetCalculatedValue).."M]"
-            CurrentTextDrawingObjectReference.Position=Vector2.new(TargetTorsoScreenPositionVectorValue.X,TargetTorsoScreenPositionVectorValue.Y+10)
+            CurrentTextDrawingObjectReference.Text,CurrentTextDrawingObjectReference.Position="["..CurrentHealthValue.."HP]["..math.floor(DistanceToTargetCalculatedValue).."M]",Vector2.new(TargetTorsoScreenPositionVectorValue.X,TargetTorsoScreenPositionVectorValue.Y+10)
         end
     else for PlayerUserIdKey,ExistingLineDrawingObjectReference in pairs(PlayerLineESPStorageTable)do if ExistingLineDrawingObjectReference then ExistingLineDrawingObjectReference:Remove()end PlayerLineESPStorageTable[PlayerUserIdKey]=nil end for PlayerUserIdKey,ExistingCircleDrawingObjectReference in pairs(PlayerCircleESPStorageTable)do if ExistingCircleDrawingObjectReference then ExistingCircleDrawingObjectReference:Remove()end PlayerCircleESPStorageTable[PlayerUserIdKey]=nil end for PlayerUserIdKey,ExistingTextDrawingObjectReference in pairs(PlayerTextESPStorageTable)do if ExistingTextDrawingObjectReference then ExistingTextDrawingObjectReference:Remove()end PlayerTextESPStorageTable[PlayerUserIdKey]=nil end end
     if not AimbotUniversalFunctionalityEnabledState then FieldOfViewCircleContainerFrame.Visible,CurrentAimbotTargetBodyPartReference=false,nil return end FieldOfViewCircleContainerFrame.Visible=true
@@ -168,7 +157,7 @@ local RenderSteppedConnectionForTwoDimensionalLogicReference=RunServiceGameRefer
 end)
 
 local HeartbeatConnectionForThreeDimensionalLogicReference=RunServiceGameReference.Heartbeat:Connect(function(DeltaTimeFrameValueParameter)
-    local PlayerGuiReference=LocalPlayerServiceReference:FindFirstChild("PlayerGui")if PlayerGuiReference then local ButtonsContainerReference=PlayerGuiReference:FindFirstChild("ButtonsContainer")if ButtonsContainerReference then local WeaponReloadButtonReference=ButtonsContainerReference:FindFirstChild("Weapon reload")local WeaponFireButtonReference=ButtonsContainerReference:FindFirstChild("Weapon fire")local RolasButtonReference=ButtonsContainerReference:FindFirstChild("Rolas")local FacaAtacarButtonReference=ButtonsContainerReference:FindFirstChild("Faca atacar")local StaminaButtonReference=ButtonsContainerReference:FindFirstChild("Stamina")if WeaponReloadButtonReference then WeaponReloadButtonReference.Position=UDim2.new(0.945,0,0.473,0)WeaponReloadButtonReference.Size=UDim2.new(0,80,0,80)end if WeaponFireButtonReference then WeaponFireButtonReference.Position=UDim2.new(0.85,0,0.75,0)WeaponFireButtonReference.Size=UDim2.new(0,80,0,80)end if FacaAtacarButtonReference then FacaAtacarButtonReference.Position=UDim2.new(0.85,0,0.75,0)FacaAtacarButtonReference.Size=UDim2.new(0,80,0,80)end for _,FrameInstanceReference in pairs(ButtonsContainerReference:GetChildren())do if FrameInstanceReference==WeaponReloadButtonReference or FrameInstanceReference==WeaponFireButtonReference or FrameInstanceReference==RolasButtonReference or FrameInstanceReference==FacaAtacarButtonReference or FrameInstanceReference==StaminaButtonReference then continue end if FrameInstanceReference:IsA("GuiObject")then FrameInstanceReference.Visible=false end end end end
+    local PlayerGuiReference=LocalPlayerServiceReference:FindFirstChild("PlayerGui")if PlayerGuiReference then local ButtonsContainerReference=PlayerGuiReference:FindFirstChild("ButtonsContainer")if ButtonsContainerReference then local WeaponReloadButtonReference=ButtonsContainerReference:FindFirstChild("Weapon reload")local WeaponFireButtonReference=ButtonsContainerReference:FindFirstChild("Weapon fire")local RolasButtonReference=ButtonsContainerReference:FindFirstChild("Rolas")local FacaAtacarButtonReference=ButtonsContainerReference:FindFirstChild("Faca atacar")local StaminaButtonReference=ButtonsContainerReference:FindFirstChild("Stamina")if WeaponReloadButtonReference then WeaponReloadButtonReference.Position,WeaponReloadButtonReference.Size=UDim2.new(0.945,0,0.473,0),UDim2.new(0,80,0,80)end if WeaponFireButtonReference then WeaponFireButtonReference.Position,WeaponFireButtonReference.Size=UDim2.new(0.85,0,0.75,0),UDim2.new(0,80,0,80)end if FacaAtacarButtonReference then FacaAtacarButtonReference.Position,FacaAtacarButtonReference.Size=UDim2.new(0.85,0,0.75,0),UDim2.new(0,80,0,80)end for _,FrameInstanceReference in pairs(ButtonsContainerReference:GetChildren())do if FrameInstanceReference==WeaponReloadButtonReference or FrameInstanceReference==WeaponFireButtonReference or FrameInstanceReference==RolasButtonReference or FrameInstanceReference==FacaAtacarButtonReference or FrameInstanceReference==StaminaButtonReference then continue end if FrameInstanceReference:IsA("GuiObject")then FrameInstanceReference.Visible=false end end end end
     if os.clock()-LastThreeDimensionalLoopExecutionTimestampValue<1/15 then return end LastThreeDimensionalLoopExecutionTimestampValue=os.clock()
     if AntiAfkUniversalFunctionalityEnabledState then local VirtualInputManagerServiceReference=game:GetService("VirtualInputManager")VirtualInputManagerServiceReference:SendMouseButtonEvent(-100,-100,0,true,game,0)VirtualInputManagerServiceReference:SendMouseButtonEvent(-100,-100,0,false,game,0)end
     if NoClipUniversalFunctionalityEnabledState then local LocalCharacterModelReference=LocalPlayerServiceReference.Character if LocalCharacterModelReference then for _,PartInstanceReference in pairs(LocalCharacterModelReference:GetDescendants())do if PartInstanceReference:IsA("BasePart")and PartInstanceReference.Name~="HumanoidRootPart"then PartInstanceReference.CanCollide=false end end end end
