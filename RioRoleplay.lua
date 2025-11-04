@@ -98,9 +98,9 @@ local RenderSteppedConnectionForTwoDimensionalLogicReference=RunServiceGameRefer
             if TargetHumanoidInstanceReference then 
                 CurrentHealthValue=math.floor(TargetHumanoidInstanceReference.Health)
                 if TargetHumanoidInstanceReference.Health<=0 then ESPColorValue=Color3.new(1,1,1)
-                elseif LocalPlayerServiceReference:IsFriendsWith(PlayerInstanceElementReference.UserId)then ESPColorValue=Color3.new(0,1,0)
+                elseif IgnoreFriendsModeUniversalFunctionalityEnabledState and LocalPlayerServiceReference:IsFriendsWith(PlayerInstanceElementReference.UserId)then ESPColorValue=Color3.new(0,1,0)
                 elseif IgnoreTeamModeUniversalFunctionalityEnabledState and PlayerInstanceElementReference.Team and PlayerInstanceElementReference.Team==LocalPlayerServiceReference.Team then ESPColorValue=Color3.new(0,1,0)
-                elseif not LocalPlayerServiceReference:IsFriendsWith(PlayerInstanceElementReference.UserId)then local EquippedToolInstanceReference=TargetCharacterModelReference:FindFirstChildOfClass("Tool")if EquippedToolInstanceReference and EquippedToolInstanceReference.Name~="Celular"then ESPColorValue=Color3.new(1,0,0)end end
+                elseif not IgnoreFriendsModeUniversalFunctionalityEnabledState or not LocalPlayerServiceReference:IsFriendsWith(PlayerInstanceElementReference.UserId)then local EquippedToolInstanceReference=TargetCharacterModelReference:FindFirstChildOfClass("Tool")if EquippedToolInstanceReference and EquippedToolInstanceReference.Name~="Celular"then ESPColorValue=Color3.new(1,0,0)end end
             end
             local CurrentLineDrawingObjectReference=PlayerLineESPStorageTable[PlayerUserIdValue]
             if not CurrentLineDrawingObjectReference then CurrentLineDrawingObjectReference=Drawing.new("Line")CurrentLineDrawingObjectReference.Thickness,CurrentLineDrawingObjectReference.Transparency,CurrentLineDrawingObjectReference.Visible=1,1,true PlayerLineESPStorageTable[PlayerUserIdValue]=CurrentLineDrawingObjectReference end
@@ -124,7 +124,7 @@ local RenderSteppedConnectionForTwoDimensionalLogicReference=RunServiceGameRefer
     local CurrentCameraInstanceReference=workspace.CurrentCamera if not CurrentCameraInstanceReference then return end
     local MouseLocationVectorValue,FieldOfViewRadiusNumericValue,ClosestTargetDistanceCalculatedValue,ClosestTargetCharacterInstanceReference,ClosestTargetBodyPartInstanceReference=CurrentCameraInstanceReference.ViewportSize/2,100,math.huge,nil,nil
     for _,PlayerInstanceElementReference in pairs(game:GetService("Players"):GetPlayers())do if PlayerInstanceElementReference==LocalPlayerServiceReference then continue end
-        if LocalPlayerServiceReference:IsFriendsWith(PlayerInstanceElementReference.UserId)then continue end
+        if IgnoreFriendsModeUniversalFunctionalityEnabledState and LocalPlayerServiceReference:IsFriendsWith(PlayerInstanceElementReference.UserId)then continue end
         if IgnoreTeamModeUniversalFunctionalityEnabledState and PlayerInstanceElementReference.Team and PlayerInstanceElementReference.Team==LocalPlayerServiceReference.Team then continue end
         local TargetCharacterModelReference=PlayerInstanceElementReference.Character if not TargetCharacterModelReference then continue end
         local TargetHumanoidRootPartReference=TargetCharacterModelReference:FindFirstChild("HumanoidRootPart")if not TargetHumanoidRootPartReference then continue end
@@ -132,7 +132,10 @@ local RenderSteppedConnectionForTwoDimensionalLogicReference=RunServiceGameRefer
         local LocalHumanoidRootPartReference=LocalCharacterModelReference:FindFirstChild("HumanoidRootPart")if not LocalHumanoidRootPartReference then continue end
         local DistanceToTargetCalculatedValue=(TargetHumanoidRootPartReference.Position-LocalHumanoidRootPartReference.Position).Magnitude if DistanceToTargetCalculatedValue>300 then continue end
         local TargetHeadPartReference,TargetTorsoPartReference=TargetCharacterModelReference:FindFirstChild("Head"),TargetCharacterModelReference:FindFirstChild("UpperTorso")or TargetCharacterModelReference:FindFirstChild("Torso")
-        local PriorityBodyPartReference=TargetHeadPartReference or TargetTorsoPartReference if not PriorityBodyPartReference then continue end
+        local PriorityBodyPartReference=nil
+        if CurrentAimbotPriorityModeSelectedValue=="Head"then PriorityBodyPartReference=TargetHeadPartReference or TargetTorsoPartReference
+        elseif CurrentAimbotPriorityModeSelectedValue=="Torso"then PriorityBodyPartReference=TargetTorsoPartReference or TargetHeadPartReference end
+        if not PriorityBodyPartReference then continue end
         local RaycastOriginPositionValue,RaycastDirectionVectorValue=CurrentCameraInstanceReference.CFrame.Position,(PriorityBodyPartReference.Position-CurrentCameraInstanceReference.CFrame.Position).Unit*DistanceToTargetCalculatedValue
         local RaycastParametersInstanceReference=RaycastParams.new()RaycastParametersInstanceReference.FilterDescendantsInstances,RaycastParametersInstanceReference.FilterType={LocalCharacterModelReference,TargetCharacterModelReference},Enum.RaycastFilterType.Exclude
         if workspace:Raycast(RaycastOriginPositionValue,RaycastDirectionVectorValue,RaycastParametersInstanceReference)then continue end
