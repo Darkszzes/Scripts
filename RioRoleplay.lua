@@ -24,10 +24,14 @@ AuthorInformationSectionReference:AddButton({Title="Copy Discord Link",Callback=
 ServerFunctionalitiesSectionReference:AddParagraph({Title="Your Current JobId",Content=CurrentJobIdValue})
 ServerFunctionalitiesSectionReference:AddButton({Title="Copy JobId Code",Callback=function()setclipboard(CurrentJobIdValue)end})
 
+local JobIdInputControlElementReference=ServerFunctionalitiesSectionReference:AddInput("JobIdInput",{Title="JobId code here",Default="RyderHub",Placeholder="RyderHub",Numeric=false,Finished=false})
+JobIdInputControlElementReference:OnChanged(function(InputValueParameter)InputJobIdValue=InputValueParameter end)
+
 local JoinJobIdServerButtonControlElementReference=ServerFunctionalitiesSectionReference:AddButton({Title="Join JobId Server",Callback=function()
-    local ClipboardJobIdValue=getclipboard()if not ClipboardJobIdValue or ClipboardJobIdValue=="" then return end if ClipboardJobIdValue==CurrentJobIdValue then return end
+    if not InputJobIdValue or InputJobIdValue=="" or InputJobIdValue=="RyderHub" then return end
+    if InputJobIdValue==CurrentJobIdValue then return end
     local TeleportServiceReference=game:GetService("TeleportService")local PlaceIdValue=game.PlaceId
-    pcall(function()TeleportServiceReference:TeleportToPlaceInstance(PlaceIdValue,ClipboardJobIdValue,LocalPlayerServiceReference)end)
+    pcall(function()TeleportServiceReference:TeleportToPlaceInstance(PlaceIdValue,InputJobIdValue,LocalPlayerServiceReference)end)
 end})
 
 local NoClipUniversalToggleControlElementReference=WorldFunctionalitiesSectionReference:AddToggle("NoClipUniversalToggle",{Title="NoClip Fe Universal",Default=false})
