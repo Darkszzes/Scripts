@@ -21,6 +21,22 @@ PrimaryDashboardMainWindowInstance:Minimize()
 AuthorInformationSectionReference:AddParagraph({Title="Update 1.9.0",Content="New Options, Bug Fixes, Performance Improvements, and General Enhancements!"})
 AuthorInformationSectionReference:AddButton({Title="Copy Discord Link",Callback=function()setclipboard("https://discord.gg/Bmvdw7mezT")end})
 
+ServerFunctionalitiesSectionReference:AddParagraph({Title="Your Current JobId",Content=CurrentJobIdValue})
+ServerFunctionalitiesSectionReference:AddButton({Title="Copy JobId Code",Callback=function()
+    setclipboard(CurrentJobIdValue)
+end})
+
+local JoinJobIdServerButtonControlElementReference=ServerFunctionalitiesSectionReference:AddButton({Title="Join JobId Server",Callback=function()
+    local ClipboardJobIdValue=getclipboard()
+    if not ClipboardJobIdValue or ClipboardJobIdValue=="" then return end
+    if ClipboardJobIdValue==CurrentJobIdValue then return end
+    local TeleportServiceReference=game:GetService("TeleportService")
+    local PlaceIdValue=game.PlaceId
+    pcall(function()
+        TeleportServiceReference:TeleportToPlaceInstance(PlaceIdValue,ClipboardJobIdValue,LocalPlayerServiceReference)
+    end)
+end})
+
 local NoClipUniversalToggleControlElementReference=WorldFunctionalitiesSectionReference:AddToggle("NoClipUniversalToggle",{Title="NoClip Fe Universal",Default=false})
 NoClipUniversalToggleControlElementReference:OnChanged(function(ToggleStateValueParameter)NoClipUniversalFunctionalityEnabledState=ToggleStateValueParameter end)
 
