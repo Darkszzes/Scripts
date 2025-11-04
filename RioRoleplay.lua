@@ -21,7 +21,7 @@ PrimaryDashboardMainWindowInstance:Minimize()
 AuthorInformationSectionReference:AddParagraph({Title="Update 1.9.0",Content="New Options, Bug Fixes, Performance Improvements, and General Enhancements!"})
 AuthorInformationSectionReference:AddButton({Title="Copy Discord Link",Callback=function()setclipboard("https://discord.gg/Bmvdw7mezT")end})
 
-ServerFunctionalitiesSectionReference:AddParagraph({Title="Your Current JobId",Content=CurrentJobIdValue})
+ServerFunctionalitiesSectionReference:AddParagraph({Title="Your Current JobId:",Content=CurrentJobIdValue})
 ServerFunctionalitiesSectionReference:AddButton({Title="Copy JobId Code",Callback=function()setclipboard(CurrentJobIdValue)end})
 
 local JobIdInputControlElementReference=ServerFunctionalitiesSectionReference:AddInput("JobIdInput",{Title="JobId code here",Default="RyderHub",Placeholder="RyderHub",Numeric=false,Finished=false})
