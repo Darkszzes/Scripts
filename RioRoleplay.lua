@@ -111,6 +111,7 @@ local RenderSteppedConnectionForTwoDimensionalLogicReference=RunServiceGameRefer
             local ESPColorValue,CurrentHealthValue=Color3.new(0,0.5,1),100
             if TargetHumanoidInstanceReference then CurrentHealthValue=math.floor(TargetHumanoidInstanceReference.Health)
                 if TargetHumanoidInstanceReference.Health<=0 then ESPColorValue=Color3.new(1,1,1)
+                elseif TargetHumanoidInstanceReference.Sit then ESPColorValue=Color3.new(1,1,0)
                 elseif IgnoreFriendsModeUniversalFunctionalityEnabledState and LocalPlayerServiceReference:IsFriendsWith(PlayerInstanceElementReference.UserId)then ESPColorValue=Color3.new(0,1,0)
                 elseif IgnoreTeamModeUniversalFunctionalityEnabledState and PlayerInstanceElementReference.Team and PlayerInstanceElementReference.Team==LocalPlayerServiceReference.Team then ESPColorValue=Color3.new(0,1,0)
                 elseif not IgnoreFriendsModeUniversalFunctionalityEnabledState or not LocalPlayerServiceReference:IsFriendsWith(PlayerInstanceElementReference.UserId)then local EquippedToolInstanceReference=TargetCharacterModelReference:FindFirstChildOfClass("Tool")if EquippedToolInstanceReference and EquippedToolInstanceReference.Name~="Celular"then ESPColorValue=Color3.new(1,0,0)end end
