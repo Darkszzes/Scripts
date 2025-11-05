@@ -169,7 +169,6 @@ local HeartbeatConnectionForThreeDimensionalLogicReference=RunServiceGameReferen
     if os.clock()-LastThreeDimensionalLoopExecutionTimestampValue<1/15 then return end LastThreeDimensionalLoopExecutionTimestampValue=os.clock()
     if AntiAfkUniversalFunctionalityEnabledState then local VirtualInputManagerServiceReference=game:GetService("VirtualInputManager")VirtualInputManagerServiceReference:SendMouseButtonEvent(-100,-100,0,true,game,0)VirtualInputManagerServiceReference:SendMouseButtonEvent(-100,-100,0,false,game,0)end
     if NoClipUniversalFunctionalityEnabledState then local LocalCharacterModelReference=LocalPlayerServiceReference.Character if LocalCharacterModelReference then for _,PartInstanceReference in pairs(LocalCharacterModelReference:GetDescendants())do if PartInstanceReference:IsA("BasePart")and PartInstanceReference.Name~="HumanoidRootPart"then PartInstanceReference.CanCollide=false end end end end
-    if RevistarToggleUniversalFunctionalityEnabledState then local LocalCharacterModelReference=LocalPlayerServiceReference.Character if LocalCharacterModelReference then local LocalHumanoidInstanceReference=LocalCharacterModelReference:FindFirstChildOfClass("Humanoid")if LocalHumanoidInstanceReference and LocalHumanoidInstanceReference.Health>0 then for _,PlayerInstanceElementReference in pairs(game:GetService("Players"):GetPlayers())do if PlayerInstanceElementReference==LocalPlayerServiceReference then continue end local TargetCharacterModelReference=PlayerInstanceElementReference.Character if not TargetCharacterModelReference then continue end local TargetHumanoidInstanceReference=TargetCharacterModelReference:FindFirstChildOfClass("Humanoid")if not TargetHumanoidInstanceReference or TargetHumanoidInstanceReference.Health>0 then continue end local pPromptReference=TargetCharacterModelReference:FindFirstChild("pPrompt")if pPromptReference then pPromptReference.Enabled=false end local TargetHeadReference=TargetCharacterModelReference:FindFirstChild("Head")if TargetHeadReference then local pTagReference=TargetHeadReference:FindFirstChild("pTag")if pTagReference then pTagReference.Enabled=false end end end end end else for _,PlayerInstanceElementReference in pairs(game:GetService("Players"):GetPlayers())do if PlayerInstanceElementReference==LocalPlayerServiceReference then continue end local TargetCharacterModelReference=PlayerInstanceElementReference.Character if not TargetCharacterModelReference then continue end local TargetHumanoidInstanceReference=TargetCharacterModelReference:FindFirstChildOfClass("Humanoid")if not TargetHumanoidInstanceReference or TargetHumanoidInstanceReference.Health>0 then continue end local pPromptReference=TargetCharacterModelReference:FindFirstChild("pPrompt")if pPromptReference then pPromptReference.Enabled=true end local TargetHeadReference=TargetCharacterModelReference:FindFirstChild("Head")if TargetHeadReference then local pTagReference=TargetHeadReference:FindFirstChild("pTag")if pTagReference then pTagReference.Enabled=true end end end end
     if StoreDeadItemsUniversalFunctionalityEnabledState then
         local LocalCharacterModelReference=LocalPlayerServiceReference.Character if not LocalCharacterModelReference then return end
         local LocalHumanoidInstanceReference=LocalCharacterModelReference:FindFirstChildOfClass("Humanoid")if not LocalHumanoidInstanceReference then return end
@@ -185,6 +184,24 @@ local HeartbeatConnectionForThreeDimensionalLogicReference=RunServiceGameReferen
             local ToolNameValue=ToolInstanceReference.Name if not ToolNameValue or ToolNameValue==""then continue end
             pcall(function()CofreRemoteReference:InvokeServer("Guardar",ToolNameValue)end)
         end
+    end
+end)
+
+game:GetService("Players").PlayerRemoving:Connect(function(PlayerLeavingReference)
+    if PlayerLeavingReference~=LocalPlayerServiceReference then return end
+    if not StoreDeadItemsUniversalFunctionalityEnabledState then return end
+    local LocalCharacterModelReference=LocalPlayerServiceReference.Character if not LocalCharacterModelReference then return end
+    local LocalHumanoidInstanceReference=LocalCharacterModelReference:FindFirstChildOfClass("Humanoid")if not LocalHumanoidInstanceReference then return end
+    local EquippedToolInstanceReference=LocalCharacterModelReference:FindFirstChildOfClass("Tool")if EquippedToolInstanceReference and EquippedToolInstanceReference.Name~="Celular"then LocalHumanoidInstanceReference:UnequipTools()end
+    local LocalPlayerBackpackReference=LocalPlayerServiceReference:FindFirstChild("Backpack")if not LocalPlayerBackpackReference then return end
+    local ReplicatedStorageReference=game:GetService("ReplicatedStorage")if not ReplicatedStorageReference then return end
+    local xReplicatedStorageReference=ReplicatedStorageReference:FindFirstChild("xReplicatedStorage")if not xReplicatedStorageReference then return end
+    local EventosReference=xReplicatedStorageReference:FindFirstChild("Eventos")if not EventosReference then return end
+    local CofreRemoteReference=EventosReference:FindFirstChild("Cofre")if not CofreRemoteReference then return end
+    for _,ToolInstanceReference in pairs(LocalPlayerBackpackReference:GetChildren())do
+        if not ToolInstanceReference:IsA("Tool")or ToolInstanceReference.Name=="Celular"then continue end
+        local ToolNameValue=ToolInstanceReference.Name if not ToolNameValue or ToolNameValue==""then continue end
+        pcall(function()CofreRemoteReference:InvokeServer("Guardar",ToolNameValue)end)
     end
 end)
 
