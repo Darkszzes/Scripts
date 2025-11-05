@@ -73,7 +73,10 @@ local StealingInteractionUniversalButtonControlElementReference=PlayersFunctiona
         local TextChatServiceReference=game:GetService("TextChatService")if not TextChatServiceReference then return end
         local TextChannelsReference=TextChatServiceReference:FindFirstChild("TextChannels")if not TextChannelsReference then return end
         local RBXGeneralChannelReference=TextChannelsReference:FindFirstChild("RBXGeneral")if not RBXGeneralChannelReference then return end
-        pcall(function()RBXGeneralChannelReference:SendAsync("/revistar "..PlayerInstanceElementReference.Name)end)break
+        local OriginalPlayerNameValue=PlayerInstanceElementReference.Name local PlayerNameLengthValue=#OriginalPlayerNameValue
+        local MinimumLengthValue=math.max(4,math.floor(PlayerNameLengthValue*0.4))local MaximumLengthValue=math.min(PlayerNameLengthValue,math.max(MinimumLengthValue,PlayerNameLengthValue-1))
+        local RandomLengthValue=math.random(MinimumLengthValue,MaximumLengthValue)local VariatedPlayerNameValue=string.sub(OriginalPlayerNameValue,1,RandomLengthValue)
+        pcall(function()RBXGeneralChannelReference:SendAsync("/revistar "..VariatedPlayerNameValue)end)break
     end
 end})
 
